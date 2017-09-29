@@ -153,7 +153,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (exec-path-from-shell clang-format magit smex markdown-mode go-mode go-autocomplete color-theme-twilight ace-jump-mode)))
+    (exec-path-from-shell magit smex markdown-mode color-theme-twilight ace-jump-mode)))
  '(tab-width 2))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
