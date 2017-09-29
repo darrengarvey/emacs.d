@@ -1,0 +1,9 @@
+*.dat
+auto-save-list/*
+elpa/*
+eshell/*
+*~
+*.data
+smex*
+themes/*
+tramp
