@@ -5,4 +5,5 @@ eshell/*
 *~
 *.data
 smex*
+ido*
 tramp
