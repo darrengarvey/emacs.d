@@ -7,13 +7,16 @@
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
+
 (package-initialize)
 (require 'package)
-(add-to-list 'load-path "~/.emacs.d/use-package")
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
 (require 'use-package)
+;; (add-to-list 'package-archives
+;;     '("melpa" . "http://melpa.milkbox.net/packages/") t)
+;; (dolist (package '(use-package))
+;;    (unless (package-installed-p package)
+;;      (package-install package)))
+
 (setq use-package-always-ensure t)
 
 ;; color-theme
