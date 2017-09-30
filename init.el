@@ -10,9 +10,10 @@
 
 (package-initialize)
 (require 'package)
+(add-to-list 'load-path "~/.emacs.d/use-package")
 (require 'use-package)
-;; (add-to-list 'package-archives
-;;     '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives
+     '("melpa" . "http://melpa.milkbox.net/packages/") t)
 ;; (dolist (package '(use-package))
 ;;    (unless (package-installed-p package)
 ;;      (package-install package)))
@@ -143,7 +144,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(package-selected-packages
+   (quote
+    (magit markdown-mode clang-format auto-complete exec-path-from-shell ace-jump-mode smex json-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
