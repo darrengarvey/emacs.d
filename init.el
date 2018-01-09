@@ -142,6 +142,8 @@
 (show-paren-mode t)
 (electric-pair-mode t)
 
+(add-hook 'before-save-hook 'whitespace-cleanup)
+
 ;; save and restore entire session
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
