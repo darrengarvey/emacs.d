@@ -89,6 +89,11 @@
 (use-package magit
   :bind (("C-x m" . magit-status)))
 
+(use-package editorconfig
+  :ensure t
+  :config
+  (editorconfig-mode 1))
+
 ;; line utils
 (defun duplicate-line()
   (interactive)
@@ -145,7 +150,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (magit markdown-mode clang-format auto-complete exec-path-from-shell ace-jump-mode smex json-mode))))
+    (editorconfig magit markdown-mode clang-format auto-complete exec-path-from-shell ace-jump-mode smex json-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
