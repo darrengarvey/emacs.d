@@ -89,6 +89,11 @@
 (use-package magit
   :bind (("C-x m" . magit-status)))
 
+(use-package editorconfig
+  :ensure t
+  :config
+  (editorconfig-mode 1))
+
 ;; line utils
 (defun duplicate-line()
   (interactive)
