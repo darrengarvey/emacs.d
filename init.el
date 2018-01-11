@@ -51,6 +51,7 @@
                ("build" (or
                          (name . "BUILD")
                          (name . "WORKSPACE")))
+               ("proto" (name . ".*\\.proto$"))
                ("dired" (mode . dired-mode))
                ("h" (or
                      (name . ".*\\.h$")
@@ -93,6 +94,9 @@
   :ensure t
   :config
   (editorconfig-mode 1))
+
+(use-package protobuf-mode
+  :defer t)
 
 ;; line utils
 (defun duplicate-line()
