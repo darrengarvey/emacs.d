@@ -148,6 +148,8 @@
 
 (add-hook 'before-save-hook 'whitespace-cleanup)
 
+(setq tramp-default-method "sshx")
+
 ;; save and restore entire session
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
