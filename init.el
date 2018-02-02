@@ -60,7 +60,8 @@
                       (name . ".*\\.cpp$")
                       (name . ".*\\.cc$")
                       (name . ".*\\.c$")))
-               ("py" (mode . "python-mode"))))))
+               ("py" (mode . "python-mode"))
+               ("go" (mode . "go-mode"))))))
 
 (use-package ace-jump-mode
   :bind ("C-;" . ace-jump-mode))
