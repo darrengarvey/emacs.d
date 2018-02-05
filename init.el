@@ -8,6 +8,24 @@
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
 
+;; INSTALL TOOLS
+;; Go apps to install:
+;;   errcheck, gocode, godef, goimports, golint, guru, megacheck, unconvert
+;;   See http://dominik.honnef.co/posts/2013/03/writing_go_in_emacs/
+;;
+;; go get golang.org/x/tools/cmd/goimports
+;; go get github.com/rogpeppe/godef
+;; go get -u github.com/nsf/gocode
+;; go get -u github.com/kisielk/errcheck
+;; go get golang.org/x/tools/cmd/guru
+;; go get -u github.com/dougm/goflymake
+;; go get -u github.com/golang/lint/golint
+;; go get github.com/mdempsky/unconvert
+;; go get honnef.co/go/tools/cmd/megacheck
+;;
+;; Python
+;; pip install flake8
+
 (package-initialize)
 (require 'package)
 (add-to-list 'load-path "~/.emacs.d/use-package")
@@ -61,13 +79,15 @@
                       (name . ".*\\.cc$")
                       (name . ".*\\.c$")))
                ("py" (mode . "python-mode"))
-               ("go" (mode . "go-mode"))))))
+               ("go" (name . ".*\\.go$"))))))
 
 (use-package ace-jump-mode
   :bind ("C-;" . ace-jump-mode))
 
 (use-package exec-path-from-shell
-  :config (exec-path-from-shell-initialize))
+  :config (progn
+            (exec-path-from-shell-initialize)
+            (exec-path-from-shell-copy-env "GOPATH")))
 
 (use-package auto-complete
   :config (progn
@@ -103,6 +123,37 @@
   :config (progn
              (add-hook 'python-mode-hook 'jedi:setup)
              (setq jedi:complete-on-dot t)))
+
+(use-package go-mode
+  :defer t
+  :init
+  (progn
+    (setq gofmt-command "goimports")
+    (add-hook 'before-save-hook 'gofmt-before-save)
+    (bind-key [remap find-tag] #'godef-jump))
+  :config
+  (add-hook 'go-mode-hook 'electric-pair-mode))
+
+(use-package go-autocomplete
+  :ensure t)
+
+(use-package go-errcheck
+  :defer t)
+
+(use-package go-guru
+  :ensure t)
+
+(use-package go-imports
+  :defer t)
+
+;; Ensure following installed for langs (See flycheck.org)
+;;   python - flake8
+;;   C++ - clang, and/or cppcheck
+;;   go -  gofmt, golint, go-errcheck, go-unconvert, go-megacheck
+;;
+(use-package flycheck
+  :ensure t
+  :init (global-flycheck-mode))
 
 ;; line utils
 (defun duplicate-line()
@@ -164,7 +215,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (magit markdown-mode clang-format auto-complete exec-path-from-shell ace-jump-mode smex json-mode))))
+    (flycheck go-imports go-guru go-errcheck go-autocomplete go-mode magit markdown-mode clang-format auto-complete exec-path-from-shell ace-jump-mode smex json-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
