@@ -14,7 +14,7 @@
 ;;   See http://dominik.honnef.co/posts/2013/03/writing_go_in_emacs/
 ;;
 ;; go get golang.org/x/tools/cmd/goimports
-;; go get github.com/rogpeppe/godefgo get github.com/rogpeppe/godef
+;; go get github.com/rogpeppe/godef
 ;; go get -u github.com/nsf/gocode
 ;; go get -u github.com/kisielk/errcheck
 ;; go get golang.org/x/tools/cmd/guru
