@@ -7,3 +7,4 @@ eshell/*
 smex*
 ido*
 tramp
+.python*

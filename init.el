@@ -8,6 +8,24 @@
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
 
+;; INSTALL TOOLS
+;; Go apps to install:
+;;   errcheck, gocode, godef, goimports, golint, guru, megacheck, unconvert
+;;   See http://dominik.honnef.co/posts/2013/03/writing_go_in_emacs/
+;;
+;; go get golang.org/x/tools/cmd/goimports
+;; go get github.com/rogpeppe/godefgo get github.com/rogpeppe/godef
+;; go get -u github.com/nsf/gocode
+;; go get -u github.com/kisielk/errcheck
+;; go get golang.org/x/tools/cmd/guru
+;; go get -u github.com/dougm/goflymake
+;; go get -u github.com/golang/lint/golint
+;; go get github.com/mdempsky/unconvert
+;; go get honnef.co/go/tools/cmd/megacheck
+;;
+;; Python
+;; pip install flake8
+
 (package-initialize)
 (require 'package)
 (add-to-list 'load-path "~/.emacs.d/use-package")
@@ -28,57 +46,61 @@
 ;; PACKAGES
 (use-package smex
   :bind (("M-x" . smex)
-         ("M-X" . smex-major-mode-commands)))
+   ("M-X" . smex-major-mode-commands)))
 
 (use-package ido
   :config (progn
-            (ido-everywhere t)
-            (ido-mode t)))
+      (ido-everywhere t)
+      (ido-mode t)))
 
 (use-package ibuffer
   :defer t
   :bind ("C-x C-b" . ibuffer)
   :config (add-hook 'ibuffer-mode-hook
-                    (lambda ()
-                      (ibuffer-switch-to-saved-filter-groups "default"))))
+        (lambda ()
+          (ibuffer-switch-to-saved-filter-groups "default"))))
 
 (setq ibuffer-saved-filter-groups
       (quote (("default"
-               ("emacs" (or
-                         (name . "^\\*scratch\\*$")
-                         (name . "^\\*Messages\\*$")
-                         (name . ".*\\.el$")))
-               ("build" (or
-                         (name . "BUILD")
-                         (name . "WORKSPACE")))
-               ("dired" (mode . dired-mode))
-               ("h" (or
-                     (name . ".*\\.h$")
-                     (name . ".*\\.hpp$")))
-               ("cc" (or
-                      (name . ".*\\.cpp$")
-                      (name . ".*\\.cc$")
-                      (name . ".*\\.c$")))
-               ("py" (mode . "python-mode"))))))
+         ("emacs" (or
+       (name . "^\\*scratch\\*$")
+       (name . "^\\*Messages\\*$")
+       (name . ".*\\.el$")))
+         ("build" (or
+       (name . "BUILD")
+       (name . "WORKSPACE")))
+         ("proto" (name . ".*\\.proto$"))
+         ("dired" (mode . dired-mode))
+         ("h" (or
+         (name . ".*\\.h$")
+         (name . ".*\\.hpp$")))
+         ("cc" (or
+          (name . ".*\\.cpp$")
+          (name . ".*\\.cc$")
+          (name . ".*\\.c$")))
+         ("py" (mode . "python-mode"))
+         ("go" (name . ".*\\.go$"))))))
 
 (use-package ace-jump-mode
   :bind ("C-;" . ace-jump-mode))
 
 (use-package exec-path-from-shell
-  :config (exec-path-from-shell-initialize))
+  :config (progn
+      (exec-path-from-shell-initialize)
+      (exec-path-from-shell-copy-env "GOPATH")))
 
 (use-package auto-complete
   :config (progn
-            (ac-config-default)
-            (global-auto-complete-mode)))
+      (ac-config-default)
+      (global-auto-complete-mode)))
 
 (setq clang-format-style-option "Google")
 
 (use-package clang-format
   :config (add-hook 'before-save-hook
-                    (lambda ()
-                        (when (eq major-mode 'c++-mode)
-                          (clang-format-buffer)))))
+        (lambda ()
+      (when (eq major-mode 'c++-mode)
+        (clang-format-buffer)))))
 
 (use-package markdown-mode
   :defer t)
@@ -93,6 +115,48 @@
   :ensure t
   :config
   (editorconfig-mode 1))
+
+(use-package protobuf-mode
+  :defer t)
+
+(use-package jedi
+  :config (progn
+       (add-hook 'python-mode-hook 'jedi:setup)
+       (setq jedi:complete-on-dot t)))
+
+(use-package go-mode
+  :defer t
+  :init
+  (progn
+    (setq gofmt-command "goimports")
+    (add-hook 'before-save-hook 'gofmt-before-save)
+    (bind-key [remap find-tag] #'godef-jump))
+  :config
+  (add-hook 'go-mode-hook 'electric-pair-mode))
+
+(use-package go-autocomplete
+  :ensure t)
+
+(use-package go-errcheck
+  :defer t)
+
+(use-package go-guru
+  :ensure t)
+
+(use-package go-imports
+  :defer t)
+
+;; Ensure following installed for langs (See flycheck.org)
+;;   python - flake8
+;;   C++ - clang, and/or cppcheck
+;;   go -  gofmt, golint, go-errcheck, go-unconvert, go-megacheck
+;;
+(use-package flycheck
+  :ensure t
+  :init (global-flycheck-mode))
+
+(use-package ttl-mode
+  :defer t)
 
 ;; line utils
 (defun duplicate-line()
@@ -119,9 +183,9 @@
 
 ;; BACKUP files
 (setq backup-directory-alist
-          `((".*" . ,temporary-file-directory)))
+    `((".*" . ,temporary-file-directory)))
     (setq auto-save-file-name-transforms
-          `((".*" ,temporary-file-directory t)))
+    `((".*" ,temporary-file-directory t)))
 
 ;; Coding modes
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
@@ -142,6 +206,10 @@
 (show-paren-mode t)
 (electric-pair-mode t)
 
+(add-hook 'before-save-hook 'whitespace-cleanup)
+
+(setq tramp-default-method "sshx")
+
 ;; save and restore entire session
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -150,7 +218,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (editorconfig magit markdown-mode clang-format auto-complete exec-path-from-shell ace-jump-mode smex json-mode))))
+    (ttl-mode flycheck go-imports go-guru go-errcheck go-autocomplete go-mode magit markdown-mode clang-format auto-complete exec-path-from-shell ace-jump-mode smex json-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
