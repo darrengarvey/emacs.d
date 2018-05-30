@@ -57,6 +57,9 @@
 (use-package protobuf-mode
   :defer t)
 
+(use-package projectile
+  :defer t)
+
 (use-package expand-region
   :defer t
   :bind (("C-\\" . er/expand-region)))
