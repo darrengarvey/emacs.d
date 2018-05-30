@@ -105,7 +105,7 @@
   :bind ("C-;" . ace-jump-mode))
 
 (use-package exec-path-from-shell
-  :config (progN
+  :config (progn
       (exec-path-from-shell-initialize)
       (exec-path-from-shell-copy-env "GOPATH")))
 
