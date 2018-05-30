@@ -119,6 +119,12 @@
       (when (eq major-mode 'c++-mode)
         (clang-format-buffer)))))
 
+(use-package bazel-mode
+  :defer t
+  :config (add-hook 'bazel-mode-hook
+        (lambda ()
+        (add-hook 'before-save-hook #'bazel-format nil t))))
+
 (use-package markdown-mode
   :defer t)
 
@@ -207,8 +213,8 @@
 ;; Coding modes
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 (add-to-list 'auto-mode-alist '("\\.hpp\\'" . c++-mode))
-(add-to-list 'auto-mode-alist '("BUILD" . python-mode))
-(add-to-list 'auto-mode-alist '("\\.BUILD\\'" . python-mode))
+(add-to-list 'auto-mode-alist '("BUILD" . bazel-mode))
+(add-to-list 'auto-mode-alist '("\\.BUILD\\'" . bazel-mode))
 (add-to-list 'auto-mode-alist '("WORKSPACE" . python-mode))
 
 (setq inhibit-startup-screen t)
@@ -235,7 +241,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-     (expand-region jedi ttl-mode flycheck go-imports go-guru go-errcheck go-autocomplete go-mode magit markdown-mode clang-format auto-complete exec-path-from-shell ace-jump-mode smex json-mode))))
+    (bazel-mode expand-region jedi ttl-mode flycheck go-imports go-guru go-errcheck go-autocomplete go-mode magit markdown-mode clang-format auto-complete exec-path-from-shell ace-jump-mode smex json-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
