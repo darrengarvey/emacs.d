@@ -44,6 +44,16 @@
 
 
 ;; PACKAGES
+(use-package evil
+  :ensure t
+  :config
+  (evil-mode 1))
+
+(use-package evil-surround
+  :defer t
+  :config
+  (global-evil-surround-mode 1))
+
 (use-package protobuf-mode
   :defer t)
 
